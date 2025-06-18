@@ -29,8 +29,12 @@ const componentMap: Record<string, React.FC<any>> = {
             </div>
         );
     },
-    StyleBlock: ({styles, children}: { styles?: React.CSSProperties; children: any[] }) => (
-        <div style={styles} className="mb-4">
+    StyleBlock: ({styles, children, direction}: {
+        styles?: React.CSSProperties;
+        children: any[];
+        direction?: string
+    }) => (
+        <div style={styles} className={`mb-4 ${direction === 'row' ? 'flex flex-row gap-4' : ''}`}>
             {children.map((child, i) => {
                 const Component = componentMap[child.component];
                 return Component ? <Component key={i} {...child} /> : null;
@@ -69,31 +73,29 @@ const componentMap: Record<string, React.FC<any>> = {
 function renderNode(key: string | { key: string; children: any[]; direction: string }, data: any): React.ReactNode {
     if (typeof key === 'string') {
         const entry = data[key];
-        const Component = componentMap[entry.component];
-        if (!Component) return null;
+        if (!entry) return null;
 
         if (entry.component === 'StyleBlock') {
             return (
-                <Component key={key} styles={entry.styles}>
-                    {entry.children.map((child: any, index: number) => {
-                        const ChildComponent = componentMap[child.component];
-                        return ChildComponent ? <ChildComponent key={index} {...child} /> : null;
-                    })}
-                </Component>
+                entry.children.map((child: any, i: number) => {
+                    const Component = componentMap[child.component];
+                    return Component ? <Component key={i} {...child} /> : null;
+                })
             );
         }
 
-        return <Component key={key} {...entry} />;
+        const Component = componentMap[entry.component];
+        return Component ? <Component key={key} {...entry} /> : null;
     }
 
     if (typeof key === 'object') {
         return (
-            <div key={key.key} className={key.direction === 'column' ? 'flex flex-col gap-4' : 'flex flex-row gap-4'}>
-                {key.children.map((childKey) => renderNode(childKey, data))}
+            <div key={key.key}
+                 className={`flex ${key.direction === 'column' ? 'flex-col' : 'flex-row'} gap-4 flex-wrap`}>
+                {key.children.map((childKey, i) => renderNode(childKey, data))}
             </div>
         );
     }
-
     return null;
 }
 
@@ -101,7 +103,7 @@ const ResumeRenderer: React.FC = () => {
     return (
         <div className="bg-[#f5f5f5] min-h-screen py-10 px-4 font-body text-gray-800">
             <div className="max-w-5xl mx-auto bg-white shadow-md rounded-xl overflow-hidden p-8">
-                {resumeData.layout.children.map((node) => renderNode(node, resumeData))}
+                {resumeData.layout.children.map((node, i) => renderNode(node, resumeData))}
             </div>
         </div>
     );

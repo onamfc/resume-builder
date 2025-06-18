@@ -2,9 +2,25 @@ const resumeData = {
     layout: {
         direction: 'column',
         children: [
-            'headshot',
-            'nameAndTitle',
-            'contactList',
+            {
+                key: 'header',
+                direction: 'row',
+                children: [
+                    'headshot',
+                    {
+                        key: 'nameAndContact',
+                        direction: 'column',
+                        children: [
+                            'nameAndTitle',
+                            {
+                                key: 'contactList',
+                                direction: 'row',
+                                children: ['contactList']
+                            }
+                        ]
+                    }
+                ]
+            },
             'summary',
             'experienceTitle',
             {
@@ -22,7 +38,6 @@ const resumeData = {
             }
         ]
     },
-
     headshot: {
         component: 'ImageBlock',
         imageUrl: '/headshot.jpg',
@@ -35,7 +50,6 @@ const resumeData = {
             marginBottom: '1rem'
         }
     },
-
     nameAndTitle: {
         component: 'TextBlock',
         text: 'Brandon Estrella — Senior Full Stack Engineer',
@@ -47,17 +61,16 @@ const resumeData = {
             marginBottom: '1rem'
         }
     },
-
     contactList: {
         component: 'StyleBlock',
-        styles: { paddingTop: 8, paddingBottom: 8 },
+        styles: {paddingTop: 8, paddingBottom: 8},
         children: [
             {
                 component: 'ContactBlock',
                 contact: {
                     type: 'email',
                     value: 'brandonestrelladev@gmail.com',
-                    icon: { component: 'Mail', size: 16 }
+                    icon: {component: 'Mail', size: 16}
                 }
             },
             {
@@ -65,7 +78,7 @@ const resumeData = {
                 contact: {
                     type: 'github',
                     value: 'Github',
-                    icon: { component: 'GitHub', size: 16 }
+                    icon: {component: 'GitHub', size: 16}
                 }
             },
             {
@@ -73,7 +86,7 @@ const resumeData = {
                 contact: {
                     type: 'linkedin',
                     value: 'LinkedIn',
-                    icon: { component: 'Linkedin', size: 16 }
+                    icon: {component: 'Linkedin', size: 16}
                 }
             },
             {
@@ -81,12 +94,11 @@ const resumeData = {
                 contact: {
                     type: 'stackoverflow',
                     value: 'Stack Overflow',
-                    icon: { component: 'Globe', size: 16 }
+                    icon: {component: 'Globe', size: 16}
                 }
             }
         ]
     },
-
     summary: {
         component: 'TextBlock',
         text: `Full-stack Engineer with 15+ years of experience crafting performant, scalable, and intuitive UIs. Well-versed in both frontend and backend technologies...`,
@@ -97,12 +109,10 @@ const resumeData = {
             fontSize: 14
         }
     },
-
     experienceTitle: {
         component: 'SectionTitle',
         title: 'EXPERIENCE'
     },
-
     job1: {
         component: 'JobBlock',
         job: {
@@ -121,7 +131,6 @@ const resumeData = {
         },
         isFirst: true
     },
-
     job2: {
         component: 'JobBlock',
         job: {
@@ -133,23 +142,19 @@ const resumeData = {
             jobDuties: ['Built backend systems...', 'Managed client deliverables...']
         }
     },
-
     interestsTitle: {
         component: 'SectionTitle',
         title: 'INTERESTS'
     },
-
     interests: {
         component: 'TextBlock',
         text: `I just love building things! I’m an avid triathlete...`,
-        style: { fontSize: 14 }
+        style: {fontSize: 14}
     },
-
     educationTitle: {
         component: 'SectionTitle',
         title: 'EDUCATION'
     },
-
     edu1: {
         component: 'EducationBlock',
         education: {
@@ -158,7 +163,6 @@ const resumeData = {
             years: '2010–2011'
         }
     },
-
     edu2: {
         component: 'EducationBlock',
         education: {
