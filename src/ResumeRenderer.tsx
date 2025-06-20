@@ -92,7 +92,7 @@ function renderNode(key: string | { key: string; children: any[]; direction: str
         return (
             <div key={key.key}
                  className={`flex ${key.direction === 'column' ? 'flex-col' : 'flex-row'} gap-4 flex-wrap`}>
-                {key.children.map((childKey, i) => renderNode(childKey, data))}
+                {key.children.map((childKey) => renderNode(childKey, data))}
             </div>
         );
     }
@@ -103,7 +103,7 @@ const ResumeRenderer: React.FC = () => {
     return (
         <div className="bg-[#f5f5f5] min-h-screen py-10 px-4 font-body text-gray-800">
             <div className="max-w-5xl mx-auto bg-white shadow-md rounded-xl overflow-hidden p-8">
-                {resumeData.layout.children.map((node, i) => renderNode(node, resumeData))}
+                {resumeData.layout.children.map((node) => renderNode(node, resumeData.data))}
             </div>
         </div>
     );
