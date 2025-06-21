@@ -1,5 +1,5 @@
 import React from 'react';
-import resumeData from './resumeData';
+import templateDefault from './templates/nova.ts';
 import {Mail, GitHub, Linkedin, Globe} from 'react-feather';
 
 const iconMap: Record<string, React.FC<{ size: number }>> = {
@@ -10,53 +10,108 @@ const iconMap: Record<string, React.FC<{ size: number }>> = {
 };
 
 const componentMap: Record<string, React.FC<any>> = {
-    ImageBlock: ({imageUrl, style, alt}: { imageUrl: string; style?: React.CSSProperties, alt: string }) => (
-        <img src={imageUrl} alt={alt} style={style}/>
-    ),
-    TextBlock: ({text, style}: { text: string; style?: React.CSSProperties }) => (
-        <p style={style}>{text}</p>
-    ),
-    SectionTitle: ({title, style}: { title: string, style?: React.CSSProperties }) => (
-        <h2 style={style}>{title}</h2>
+    BulletBlock: ({ items, className = '' }: { items: string[]; className?: string }) => (
+        <ul className={className || 'grid grid-cols-2 gap-x-4 gap-y-1 text-sm list-disc pl-6'}>
+            {items.map((item, i) => <li key={i}>{item}</li>)}
+        </ul>
     ),
     ContactBlock: ({contact}: { contact: any }) => {
         const IconComponent = iconMap[contact.icon.component];
         return (
-            <div className="flex items-center gap-2 text-sm text-gray-600">
+            <div className="flex items-center gap-2 text-sm text-gray-600" style={contact.style}>
                 {IconComponent && <IconComponent size={contact.icon.size}/>}
                 {contact.value}
             </div>
         );
     },
-    StyleBlock: ({styles, children = [], direction}: {
-        styles?: React.CSSProperties;
-        children?: any[];
-        direction?: string;
-    }) => (
-        <div style={styles} className={`${direction === 'row' ? 'flex flex-row gap-4' : 'flex-col'}`}>
-            {children}
+    CertificationBlock: ({ cert }: { cert: { name: string; issuer?: string; date?: string } }) => (
+        <div className="mb-1 text-sm">
+            <strong>{cert.name}</strong>
+            {cert.issuer && <> — <span className="text-slate-600">{cert.issuer}</span></>}
+            {cert.date && <> <span className="text-slate-400 text-xs">({cert.date})</span></>}
         </div>
     ),
-    JobBlock: ({job, children, isFirst}: { job: any; children?: any[]; isFirst?: boolean }) => (
-        <div className={`${!isFirst ? 'border-t-2 border-gray-200 pt-6 mt-6' : ''}`}>
-            <div className="flex justify-between flex-wrap gap-2">
-                <h3 className="italic text-lg font-semibold">{job.title}</h3>
-                <span className="text-gray-500">{job.company}</span>
-                <span className="text-gray-500">{job.startDate} – {job.endDate} | {job.location}</span>
+    DividerBlock: ({ style, className = '' }: { style?: React.CSSProperties; className?: string }) => (
+        <hr style={style} className={className || 'my-4 border-gray-300'} />
+    ),
+    EducationBlock: ({ education, className = '' }: { education: any; className?: string }) => (
+        <p className={className}>
+            <strong>{education.institution}</strong> — {education.study} ({education.years})
+        </p>
+    ),
+    ImageBlock: ({imageUrl, style, alt}: { imageUrl: string; style?: React.CSSProperties, alt: string }) => (
+        <img src={imageUrl} alt={alt} style={style}/>
+    ),
+    JobBlock: ({job, children, isFirst, className = ''}: {
+        job: any;
+        children?: any[];
+        isFirst?: boolean;
+        className?: string
+    }) => (
+        <div className={`${!isFirst ? className : ''}`} style={job.style}>
+            <div className={job.meta.classNames?.headerClassName ?? 'flex justify-between flex-wrap gap-2'}>
+                <h3 className={job.meta.classNames?.titleClassName ?? 'italic text-lg font-semibold'}>
+                    {job.meta.title}
+                </h3>
+                <span className={job.meta.classNames?.companyClassName ?? 'text-gray-500'}>{job.meta.company}</span>
+                <span
+                    className={job.meta.classNames?.dateClassName ?? 'text-gray-500'}>{job.meta.startDate} – {job.meta.endDate} | {job.meta.location}</span>
             </div>
-            <ul className="list-disc pl-6 mt-2 space-y-1 text-sm">
-                {job.jobDuties.map((duty: string, i: number) => (
+
+            <ul className={job.meta.classNames?.listClassName ?? 'list-disc pl-6 mt-2 space-y-1 text-sm'}>
+                {job.duties.map((duty: string, i: number) => (
                     <li key={i}>{duty}</li>
                 ))}
             </ul>
+
             {children && <div className="mt-4">{children}</div>}
         </div>
     ),
-    LabelValueBlock: ({label, value}: { label: string; value: string }) => (
-        <p className="text-sm"><strong>{label}</strong> {value}</p>
+    LabelValueBlock: ({label, value, className}: { label: string; value: string; className: string }) => (
+        <p className={className || 'text-sm'}><strong>{label}</strong> {value}</p>
     ),
-    EducationBlock: ({education}: { education: any }) => (
-        <p><strong>{education.institution}</strong> — {education.study} ({education.years})</p>
+    ProjectBlock: ({ project }: { project: { name: string; description: string; link?: string } }) => (
+        <div className="mb-2">
+            <p className="font-medium text-sm">{project.name}</p>
+            <p className="text-sm text-slate-600">{project.description}</p>
+            {project.link && (
+                <a href={project.link} className="text-xs text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">
+                    View Project
+                </a>
+            )}
+        </div>
+    ),
+
+    SectionTitle: ({ title, style, className = '' }: { title: string; style?: React.CSSProperties; className?: string }) => (
+        <h2 style={style} className={className}>{title}</h2>
+    ),
+    StyleBlock: ({ style, className = '', children = [], direction }: {
+        style?: React.CSSProperties;
+        className?: string;
+        children?: any[];
+        direction?: string;
+    }) => (
+        <div style={style} className={`${className} ${direction === 'row' ? 'flex flex-row gap-4' : 'flex-col'}`}>
+            {children}
+        </div>
+    ),
+    SkillTagBlock: ({ skills, className = '' }: { skills: string[]; className?: string }) => (
+        <div className={`flex flex-wrap gap-2 ${className}`}>
+            {skills.map((skill, i) => (
+                <span key={i} className="bg-gray-200 text-xs px-2 py-1 rounded-full">{skill}</span>
+            ))}
+        </div>
+    ),
+    SidebarItemBlock: ({ icon, label }: { icon: string; label: string }) => {
+        const Icon = iconMap[icon];
+        return (
+            <div className="flex items-center gap-2 text-sm text-gray-700 mb-2">
+                {Icon && <Icon size={14} />} {label}
+            </div>
+        );
+    },
+    TextBlock: ({ text, style, className = '' }: { text: string; style?: React.CSSProperties; className?: string }) => (
+        <p style={style} className={className}>{text}</p>
     )
 };
 
@@ -100,11 +155,10 @@ function renderNode(
     return null;
 }
 
-
 const ResumeRenderer: React.FC = () => {
     return (
-        resumeData.layout.children.map((node, i) => (
-            <React.Fragment key={i}>{renderNode(node, resumeData.data)}</React.Fragment>
+        templateDefault.layout.children.map((node, i) => (
+            <React.Fragment key={i}>{renderNode(node, templateDefault.data)}</React.Fragment>
         ))
     );
 };
