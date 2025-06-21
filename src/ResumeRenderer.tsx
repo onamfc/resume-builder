@@ -1,4 +1,3 @@
-// ResumeRenderer.tsx
 import React from 'react';
 import resumeData from './resumeData';
 import {Mail, GitHub, Linkedin, Globe} from 'react-feather';
@@ -11,14 +10,14 @@ const iconMap: Record<string, React.FC<{ size: number }>> = {
 };
 
 const componentMap: Record<string, React.FC<any>> = {
-    ImageBlock: ({imageUrl, style}: { imageUrl: string; style: any }) => (
-        <img src={imageUrl} alt="headshot" style={style}/>
+    ImageBlock: ({imageUrl, style, alt}: { imageUrl: string; style?: React.CSSProperties, alt: string }) => (
+        <img src={imageUrl} alt={alt} style={style}/>
     ),
-    TextBlock: ({text, style}: { text: string; style?: any }) => (
+    TextBlock: ({text, style}: { text: string; style?: React.CSSProperties }) => (
         <p style={style}>{text}</p>
     ),
-    SectionTitle: ({title}: { title: string }) => (
-        <h2 className="text-sm text-[#3ecac2] font-bold tracking-widest mb-4">{title}</h2>
+    SectionTitle: ({title, style}: { title: string, style?: React.CSSProperties }) => (
+        <h2 style={style}>{title}</h2>
     ),
     ContactBlock: ({contact}: { contact: any }) => {
         const IconComponent = iconMap[contact.icon.component];
@@ -29,16 +28,13 @@ const componentMap: Record<string, React.FC<any>> = {
             </div>
         );
     },
-    StyleBlock: ({styles, children, direction}: {
+    StyleBlock: ({styles, children = [], direction}: {
         styles?: React.CSSProperties;
-        children: any[];
-        direction?: string
+        children?: any[];
+        direction?: string;
     }) => (
-        <div style={styles} className={`mb-4 ${direction === 'row' ? 'flex flex-row gap-4' : ''}`}>
-            {children.map((child, i) => {
-                const Component = componentMap[child.component];
-                return Component ? <Component key={i} {...child} /> : null;
-            })}
+        <div style={styles} className={`${direction === 'row' ? 'flex flex-row gap-4' : 'flex-col'}`}>
+            {children}
         </div>
     ),
     JobBlock: ({job, isFirst}: { job: any; isFirst?: boolean }) => (
@@ -59,8 +55,7 @@ const componentMap: Record<string, React.FC<any>> = {
                     <p className="text-sm"><strong>AWS Services:</strong> {job.subSection.aws}</p>
                     <p className="text-sm"><strong>Third-Party APIs:</strong> {job.subSection.apis}</p>
                     <p className="text-sm"><strong>Tools:</strong> {job.subSection.tools}</p>
-                    <p className="text-sm"><strong>Technologies, Packages, etc:</strong> {job.subSection.technologies}
-                    </p>
+                    <p className="text-sm"><strong>Technologies, Packages, etc:</strong> {job.subSection.technologies}</p>
                 </section>
             )}
         </div>
@@ -70,42 +65,52 @@ const componentMap: Record<string, React.FC<any>> = {
     )
 };
 
-function renderNode(key: string | { key: string; children: any[]; direction: string }, data: any): React.ReactNode {
+function renderNode(
+    key: string | { key?: string; children?: any[]; direction?: string; component?: string; [key: string]: any },
+    data: any
+): React.ReactNode {
+    // If 'string', use lookup (for root keys like 'header')
     if (typeof key === 'string') {
-        const entry = data[key];
+        const entry = data?.[key];
         if (!entry) return null;
+        return renderNode(entry, data);
+    }
 
-        if (entry.component === 'StyleBlock') {
-            return (
-                entry.children.map((child: any, i: number) => {
-                    const Component = componentMap[child.component];
-                    return Component ? <Component key={i} {...child} /> : null;
-                })
-            );
+    // If object and has component
+    if (typeof key === 'object') {
+        if (key.component) {
+            const Component = componentMap[key.component];
+            if (!Component) return null;
+
+            const renderedChildren = (key.children ?? []).map((child: any, i: number) => (
+                <React.Fragment key={i}>{renderNode(child, data)}</React.Fragment>
+            ));
+
+            return <Component {...{...key, children: renderedChildren}} />;
         }
 
-        const Component = componentMap[entry.component];
-        return Component ? <Component key={key} {...entry} /> : null;
+        // Optional fallback if using keyed children containers
+        if (key.key) {
+            return (
+                <div key={key.key}
+                     className={`flex ${key.direction === 'column' ? 'flex-col' : 'flex-row'} gap-4 flex-wrap`}>
+                    {(key.children ?? []).map((childKey, i) => (
+                        <React.Fragment key={i}>{renderNode(childKey, data)}</React.Fragment>
+                    ))}
+                </div>
+            );
+        }
     }
 
-    if (typeof key === 'object') {
-        return (
-            <div key={key.key}
-                 className={`flex ${key.direction === 'column' ? 'flex-col' : 'flex-row'} gap-4 flex-wrap`}>
-                {key.children.map((childKey) => renderNode(childKey, data))}
-            </div>
-        );
-    }
     return null;
 }
 
+
 const ResumeRenderer: React.FC = () => {
     return (
-        <div className="bg-[#f5f5f5] min-h-screen py-10 px-4 font-body text-gray-800">
-            <div className="max-w-5xl mx-auto bg-white shadow-md rounded-xl overflow-hidden p-8">
-                {resumeData.layout.children.map((node) => renderNode(node, resumeData.data))}
-            </div>
-        </div>
+        resumeData.layout.children.map((node, i) => (
+            <React.Fragment key={i}>{renderNode(node, resumeData.data)}</React.Fragment>
+        ))
     );
 };
 
