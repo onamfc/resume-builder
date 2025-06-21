@@ -1,4 +1,4 @@
-const resumeData = {
+const data = {
     templateName: 'Ava',
     layout: {
         direction: 'column',
@@ -9,7 +9,7 @@ const resumeData = {
     data: {
         main: {
             component: 'StyleBlock',
-            styles: {
+            style: {
                 backgroundColor: '#f5f5f5',
                 minHeight: '100vh',
                 padding: '2.5rem 1rem',
@@ -19,7 +19,7 @@ const resumeData = {
             children: [
                 {
                     component: 'StyleBlock',
-                    styles: {
+                    style: {
                         maxWidth: '64rem',
                         margin: '0 auto',
                         backgroundColor: '#fff',
@@ -51,7 +51,7 @@ const resumeData = {
                                 {
                                     component: 'StyleBlock',
                                     direction: 'column',
-                                    styles: {
+                                    style: {
                                         flex: 1,
                                         paddingLeft: '1rem',
                                         paddingRight: '1rem',
@@ -79,14 +79,18 @@ const resumeData = {
                                                         {
                                                             component: 'StyleBlock',
                                                             direction: 'row',
-                                                            styles: {paddingTop: 8, paddingBottom: 8},
+                                                            style: {paddingTop: 8, paddingBottom: 8},
                                                             children: [
                                                                 {
                                                                     component: 'ContactBlock',
                                                                     contact: {
                                                                         type: 'email',
                                                                         value: 'brandonestrelladev@gmail.com',
-                                                                        icon: {component: 'Mail', size: 16}
+                                                                        icon: {component: 'Mail', size: 16},
+                                                                        link: {
+                                                                            href: 'mailto:',
+                                                                            target: '_blank',
+                                                                        }
                                                                     }
                                                                 },
                                                                 {
@@ -138,7 +142,7 @@ const resumeData = {
                         {
                             component: 'StyleBlock',
                             name: 'experience',
-                            styles: {marginTop: '1rem', marginBottom: '1rem'},
+                            style: {marginTop: '1rem', marginBottom: '1rem'},
                             direction: 'column',
                             children: [
                                 {
@@ -156,12 +160,14 @@ const resumeData = {
                                     component: 'JobBlock',
                                     isFirst: true,
                                     job: {
-                                        title: 'Full Stack Engineer, CTO',
-                                        company: 'Marriage365',
-                                        location: 'Remote',
-                                        startDate: '2015',
-                                        endDate: 'Present',
-                                        jobDuties: [
+                                        meta: {
+                                            title: 'Full Stack Engineer, CTO',
+                                            company: 'Marriage365',
+                                            location: 'Remote',
+                                            startDate: '2015',
+                                            endDate: 'Present',
+                                        },
+                                        duties: [
                                             'Spearheaded the complete rebuild of the Marriage365 video-on-demand subscription platform, launching high-availability web and mobile apps used by tens of thousands of users.',
                                             'Led a cross-functional development team using Agile methodologies, including sprint planning, daily stand-ups, and stakeholder demos.',
                                             'Designed and implemented a queue-based event-driven architecture using Laravel, Python, and serverless technologies along with a robust front-end architecture using React, TypeScript, and modular design patterns.',
@@ -176,7 +182,7 @@ const resumeData = {
                                     children: [
                                         {
                                             component: 'StyleBlock',
-                                            styles: {marginTop: '1rem'},
+                                            style: {marginTop: '1rem'},
                                             direction: 'column',
                                             children: [
                                                 {
@@ -214,13 +220,22 @@ const resumeData = {
                                 },
                                 {
                                     component: 'JobBlock',
+
                                     job: {
-                                        title: 'Founder & Full Stack Developer',
-                                        company: 'Site Transition',
-                                        location: 'Remote',
-                                        startDate: '2011',
-                                        endDate: '2015',
-                                        jobDuties: [
+                                        style: {
+                                            margin: '3rem 0',
+                                            padding: '3rem 0',
+                                            borderTop: '1px solid #f0f0f0',
+                                            borderBottom: '1px solid #f0f0f0'
+                                        },
+                                        meta: {
+                                            title: 'Founder & Full Stack Developer',
+                                            company: 'Site Transition',
+                                            location: 'Remote',
+                                            startDate: '2011',
+                                            endDate: '2015',
+                                        },
+                                        duties: [
                                             'Built secure backend systems with great UX.',
                                             'Created Align International’s child sponsorship platform.',
                                             'Led dev team, managed budgets, and delivered client projects.',
@@ -233,12 +248,12 @@ const resumeData = {
                         },
                         {
                             component: 'StyleBlock',
-                            styles: {marginTop: '1rem', marginBottom: '1rem'},
+                            style: {marginTop: '1rem', marginBottom: '1rem'},
                             direction: 'row',
                             children: [
                                 {
                                     component: 'StyleBlock',
-                                    styles: {marginTop: '1rem', marginBottom: '1rem', flex: 1, paddingRight: '2.5rem'},
+                                    style: {marginTop: '1rem', marginBottom: '1rem', flex: 1, paddingRight: '2.5rem'},
                                     direction: 'column',
                                     children: [
                                         {
@@ -263,7 +278,7 @@ const resumeData = {
                                 },
                                 {
                                     component: 'StyleBlock',
-                                    styles: {marginTop: '1rem', marginBottom: '1rem', flex: 1},
+                                    style: {marginTop: '1rem', marginBottom: '1rem', flex: 1},
                                     direction: 'column',
                                     children: [
                                         {
@@ -304,4 +319,4 @@ const resumeData = {
     }
 };
 
-export default resumeData;
+export default data;
