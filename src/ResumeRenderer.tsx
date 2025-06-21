@@ -37,7 +37,7 @@ const componentMap: Record<string, React.FC<any>> = {
             {children}
         </div>
     ),
-    JobBlock: ({job, isFirst}: { job: any; isFirst?: boolean }) => (
+    JobBlock: ({job, children, isFirst}: { job: any; children?: any[]; isFirst?: boolean }) => (
         <div className={`${!isFirst ? 'border-t-2 border-gray-200 pt-6 mt-6' : ''}`}>
             <div className="flex justify-between flex-wrap gap-2">
                 <h3 className="italic text-lg font-semibold">{job.title}</h3>
@@ -49,16 +49,11 @@ const componentMap: Record<string, React.FC<any>> = {
                     <li key={i}>{duty}</li>
                 ))}
             </ul>
-            {job.subSection && (
-                <section className="mb-10 mt-5">
-                    <h2 className="text-sm tracking-widest mt-2 underline">Stack Overview</h2>
-                    <p className="text-sm"><strong>AWS Services:</strong> {job.subSection.aws}</p>
-                    <p className="text-sm"><strong>Third-Party APIs:</strong> {job.subSection.apis}</p>
-                    <p className="text-sm"><strong>Tools:</strong> {job.subSection.tools}</p>
-                    <p className="text-sm"><strong>Technologies, Packages, etc:</strong> {job.subSection.technologies}</p>
-                </section>
-            )}
+            {children && <div className="mt-4">{children}</div>}
         </div>
+    ),
+    LabelValueBlock: ({label, value}: { label: string; value: string }) => (
+        <p className="text-sm"><strong>{label}</strong> {value}</p>
     ),
     EducationBlock: ({education}: { education: any }) => (
         <p><strong>{education.institution}</strong> — {education.study} ({education.years})</p>
