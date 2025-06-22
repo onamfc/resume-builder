@@ -1,5 +1,5 @@
 import React from 'react';
-import templateDefault from './templates/nova.ts';
+import templateDefault from './templates/default.ts';
 import {Mail, GitHub, Linkedin, Globe} from 'react-feather';
 
 const iconMap: Record<string, React.FC<{ size: number }>> = {
