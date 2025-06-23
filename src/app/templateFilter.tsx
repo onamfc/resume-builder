@@ -1,3 +1,4 @@
+'use client';
 import React, {useState} from "react";
 
 type TemplateIndex = {
@@ -103,7 +104,7 @@ const TemplateFilter: React.FC = () => {
                 <h2 className="text-xl font-semibold mb-4">Filter Templates</h2>
                 <div className="space-y-3">
                     {filterCategories.map(({label, component}) => (
-                        <label key={component} className="flex items-center gap-2 text-sm">
+                        <label key={Math.random()} className="flex items-center gap-2 text-sm">
                             <input
                                 type="checkbox"
                                 checked={selected.includes(component)}

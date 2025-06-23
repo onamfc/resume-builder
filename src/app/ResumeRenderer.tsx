@@ -1,5 +1,5 @@
 import React from 'react';
-import templateDefault from './templates/default.ts';
+import templateDefault from '@/templates/default';
 import {Mail, GitHub, Linkedin, Globe} from 'react-feather';
 
 const iconMap: Record<string, React.FC<{ size: number }>> = {
@@ -12,7 +12,7 @@ const iconMap: Record<string, React.FC<{ size: number }>> = {
 const componentMap: Record<string, React.FC<any>> = {
     BulletBlock: ({ items, className = '' }: { items: string[]; className?: string }) => (
         <ul className={className || 'grid grid-cols-2 gap-x-4 gap-y-1 text-sm list-disc pl-6'}>
-            {items.map((item, i) => <li key={i}>{item}</li>)}
+            {items.map((item, i) => <li key={Math.random()}>{item}</li>)}
         </ul>
     ),
     ContactBlock: ({contact}: { contact: any }) => {
