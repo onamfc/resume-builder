@@ -1,5 +1,5 @@
 const data = {
-    templateName: 'Ava',
+    templateName: 'default',
     layout: {
         direction: 'column',
         children: [
@@ -36,7 +36,7 @@ const data = {
                             children: [
                                 {
                                     component: 'ImageBlock',
-                                    imageUrl: '/headshot.jpg',
+                                    imageUrl: '/img/headshot.jpg',
                                     name: 'headshot',
                                     alt: 'Brandon Estrella Headshot',
                                     style: {
