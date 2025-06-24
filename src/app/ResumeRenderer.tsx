@@ -1,5 +1,6 @@
 import React from 'react';
 import { Mail, GitHub, Linkedin, Globe } from 'react-feather';
+import Image from "next/image";
 
 // Icon map for ContactBlock and SidebarItemBlock
 const iconMap: Record<string, React.FC<{ size: number }>> = {
@@ -48,7 +49,7 @@ const componentMap: Record<string, React.FC<any>> = {
     ),
     // Displays an image block
     ImageBlock: ({ imageUrl, style, alt }) => (
-        <img src={imageUrl} alt={alt} style={style} />
+        <Image width={style.width} height={style.height} src={imageUrl} alt={alt} style={style} />
     ),
     // Renders a job section with metadata and bullet-point duties
     JobBlock: ({ job, children, isFirst, className = '' }) => (
