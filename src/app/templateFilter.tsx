@@ -1,84 +1,22 @@
+// Updated TemplateFilter.tsx
 'use client';
-import React, {useState} from "react";
+import React, { useState } from 'react';
+import ResumeRenderer from './ResumeRenderer';
+import templates, { TemplateDefinition } from '@/templates';
 
-type TemplateIndex = {
-    name: string;
-    label: string;
-    image: string;
-    components: string[];
-};
-
-type FilterCategory = {
-    label: string;
-    component: string;
-};
-
-const filterCategories: FilterCategory[] = [
-    {label: "Experience", component: "JobBlock"},
-    {label: "Projects", component: "BulletBlock"},
-    {label: "Certifications", component: "CertificationBlock"},
-    {label: "Education", component: "EducationBlock"},
-    {label: "Skills", component: "SkillTagBlock"},
-    {label: "Interests", component: "BulletBlock"}
-];
-
-const templateIndex: TemplateIndex[] = [
-    {
-        name: "default",
-        label: "Default",
-        image: "https://placehold.co/600x400/3acede/FFF?text=Default",
-        components: [
-            "StyleBlock",
-            "ImageBlock",
-            "TextBlock",
-            "ContactBlock",
-            "DividerBlock",
-            "SectionTitle",
-            "JobBlock",
-            "BulletBlock",
-            "EducationBlock",
-        ]
-    },
-    {
-        name: "nova",
-        label: "Nova",
-        image: "https://placehold.co/600x400/000000/FFF?text=Nova",
-        components: [
-            "StyleBlock",
-            "ImageBlock",
-            "TextBlock",
-            "ContactBlock",
-            "DividerBlock",
-            "SectionTitle",
-            "JobBlock",
-            "BulletBlock",
-            "EducationBlock",
-            "SkillTagBlock",
-            "CertificationBlock"
-        ]
-    },
-    {
-        name: "metro",
-        label: "Metro",
-        image: "https://placehold.co/600x400?text=Metro",
-        components: [
-            "StyleBlock",
-            "ImageBlock",
-            "TextBlock",
-            "ContactBlock",
-            "SectionTitle",
-            "JobBlock",
-            "EducationBlock",
-            "BulletBlock",
-            "SkillTagBlock"
-        ]
-    }
+const filterCategories = [
+    { label: 'Experience', component: 'JobBlock' },
+    { label: 'Projects', component: 'BulletBlock' },
+    { label: 'Certifications', component: 'CertificationBlock' },
+    { label: 'Education', component: 'EducationBlock' },
+    { label: 'Skills', component: 'SkillTagBlock' },
+    { label: 'Interests', component: 'BulletBlock' },
 ];
 
 function filterTemplates(
     selectedComponents: string[],
-    templates: TemplateIndex[]
-): TemplateIndex[] {
+    templates: TemplateDefinition[]
+): TemplateDefinition[] {
     return templates.filter(template =>
         selectedComponents.every(comp => template.components.includes(comp))
     );
@@ -86,6 +24,7 @@ function filterTemplates(
 
 const TemplateFilter: React.FC = () => {
     const [selected, setSelected] = useState<string[]>([]);
+    const [selectedTemplate, setSelectedTemplate] = useState<TemplateDefinition | null>(null);
 
     const handleChange = (component: string) => {
         setSelected(prev =>
@@ -95,15 +34,15 @@ const TemplateFilter: React.FC = () => {
         );
     };
 
-    const results = filterTemplates(selected, templateIndex);
+    const results = filterTemplates(selected, templates);
 
     return (
-        <div className="flex flex-col md:flex-row h-screen">
+        <div className="flex flex-col md:flex-row min-h-screen">
             {/* Sidebar */}
             <aside className="md:w-1/4 w-full p-6 border-r border-slate-200 bg-slate-50">
                 <h2 className="text-xl font-semibold mb-4">Filter Templates</h2>
                 <div className="space-y-3">
-                    {filterCategories.map(({label, component}) => (
+                    {filterCategories.map(({ label, component }) => (
                         <label key={Math.random()} className="flex items-center gap-2 text-sm">
                             <input
                                 type="checkbox"
@@ -124,7 +63,8 @@ const TemplateFilter: React.FC = () => {
                         {results.map(template => (
                             <div
                                 key={template.name}
-                                className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition"
+                                className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition cursor-pointer"
+                                onClick={() => setSelectedTemplate(template)}
                             >
                                 <img
                                     src={template.image}
@@ -139,6 +79,13 @@ const TemplateFilter: React.FC = () => {
                     </div>
                 ) : (
                     <p className="text-sm text-gray-500">No templates match your filters.</p>
+                )}
+
+                {selectedTemplate && (
+                    <div className="mt-10 p-6 border rounded bg-white shadow-inner">
+                        <h3 className="text-lg font-semibold mb-4">Selected Template Preview</h3>
+                        <ResumeRenderer layout={selectedTemplate.layout} data={selectedTemplate.data} />
+                    </div>
                 )}
             </main>
         </div>
