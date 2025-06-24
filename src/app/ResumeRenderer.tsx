@@ -15,7 +15,7 @@ const componentMap: Record<string, React.FC<any>> = {
     // Renders a list of bullet points
     BulletBlock: ({ items, className = '' }) => (
         <ul className={className || 'grid grid-cols-2 gap-x-4 gap-y-1 text-sm list-disc pl-6'}>
-            {items.map((item: string, i: number) => <li key={Math.random()}>{item}</li>)}
+            {items.map((item: string) => <li key={Math.random()}>{item}</li>)}
         </ul>
     ),
 
@@ -151,7 +151,7 @@ function renderNode(
         if (key.key) {
             return (
                 <div key={key.key} className={`flex ${key.direction === 'column' ? 'flex-col' : 'flex-row'} gap-4 flex-wrap`}>
-                    {(key.children ?? []).map((childKey, i) => (
+                    {(key.children ?? []).map((childKey) => (
                         <React.Fragment key={Math.random()}>{renderNode(childKey, data)}</React.Fragment>
                     ))}
                 </div>
