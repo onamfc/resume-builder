@@ -1,7 +1,7 @@
 const data = {
     name: 'default',
     label: 'Default',
-    image: "https://placehold.co/600x400/3acede/FFF?text=Default",
+    image: "https://placehold.co/600x400.png?text=Default",
     layout: {
         direction: 'column',
         children: [

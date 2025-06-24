@@ -1,7 +1,7 @@
-const resumeData = {
+const data = {
     name: "Metro",
     label: "Metro",
-    image: "https://placehold.co/600x400?text=Metro",
+    image: "https://placehold.co/600x400.png?text=Metro",
     layout: {
         direction: "row",
         children: ["main"]
@@ -153,4 +153,4 @@ const resumeData = {
     }
 };
 
-export default resumeData;
+export default data;

@@ -1,7 +1,7 @@
 const data = {
     name: "Nova",
     label: "Nova",
-    image: "https://placehold.co/600x400/000000/FFF?text=Nova",
+    image: "https://placehold.co/600x400.png?text=Nova",
     layout: {
         direction: "column",
         children: ["main"]
