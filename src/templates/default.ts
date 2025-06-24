@@ -1,11 +1,21 @@
 const data = {
-    templateName: 'default',
+    name: 'default',
+    label: 'Default',
+    image: "https://placehold.co/600x400/3acede/FFF?text=Default",
     layout: {
         direction: 'column',
         children: [
             'main'
         ],
     },
+    components: [
+        "StyleBlock",
+        "ImageBlock",
+        "TextBlock",
+        "ContactBlock",
+        "SectionTitle",
+        "JobBlock",
+    ],
     data: {
         main: {
             component: 'StyleBlock',

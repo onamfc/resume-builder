@@ -1,10 +1,22 @@
 const resumeData = {
-    templateName: "Metro",
+    name: "Metro",
+    label: "Metro",
+    image: "https://placehold.co/600x400?text=Metro",
     layout: {
         direction: "row",
         children: ["main"]
     },
-
+    components: [
+        "StyleBlock",
+        "ImageBlock",
+        "TextBlock",
+        "ContactBlock",
+        "SectionTitle",
+        "JobBlock",
+        "EducationBlock",
+        "BulletBlock",
+        "SkillTagBlock"
+    ],
     data: {
         main: {
             component: "StyleBlock",
@@ -18,7 +30,7 @@ const resumeData = {
                     children: [
                         {
                             component: "ImageBlock",
-                            imageUrl: "/headshot.jpg",
+                            imageUrl: "/img/headshot.jpg",
                             alt: "Brandon Estrella",
                             style: {
                                 width: 120,

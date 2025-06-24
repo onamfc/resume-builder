@@ -1,9 +1,24 @@
 const data = {
-    templateName: "Nova",
+    name: "Nova",
+    label: "Nova",
+    image: "https://placehold.co/600x400/000000/FFF?text=Nova",
     layout: {
         direction: "column",
         children: ["main"]
     },
+    components: [
+        "StyleBlock",
+        "ImageBlock",
+        "TextBlock",
+        "ContactBlock",
+        "DividerBlock",
+        "SectionTitle",
+        "JobBlock",
+        "BulletBlock",
+        "EducationBlock",
+        "SkillTagBlock",
+        "CertificationBlock"
+    ],
     data: {
         main: {
             component: "StyleBlock",
@@ -22,7 +37,7 @@ const data = {
                             children: [
                                 {
                                     component: "ImageBlock",
-                                    imageUrl: "/headshot.jpg",
+                                    imageUrl: "/img/headshot.jpg",
                                     alt: "Brandon Estrella",
                                     style: {
                                         width: 100,
