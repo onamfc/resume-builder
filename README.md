@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ResumeBuilder <sup>(wip)</sub>
 
-## Getting Started
+A dynamic, schema-driven resume builder built with Next.js, React, and Tailwind CSS. This app allows users to input resume data, select from customizable templates, and host their resume on a unique public page.
 
-First, run the development server:
+## 🎯 Why This Project?
+This project is a work in progress, born from a personal need during my own job search. I wanted a simple, elegant way to host the most up-to-date version of my resume, offering something I could share easily with prospective employers and update quickly without needing to send new PDFs or Word docs.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+So, I decided to build one from scratch - and open source it!
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The long-term goal is to create a flexible platform that allows anyone to:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a professional online resume with minimal effort
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Choose from beautiful, responsive templates
 
-## Learn More
+Update resume content anytime with live previews
 
-To learn more about Next.js, take a look at the following resources:
+Host it on a personal URL or subdomain
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Whether you're actively job-hunting or just want a professional digital presence, this app aims to make resume sharing seamless and modern.
+## ✨ Features
+🔧 JSON-schema powered resume creation system
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+🧩 Drag-and-drop template selection with deep linking (/preview/[template])
 
-## Deploy on Vercel
+📄 Real-time resume previews with components like JobBlock, BulletBlock, EducationBlock, etc.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+🎨 Tailwind CSS-based responsive design
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+🗂️ Dynamic left-sidebar filtering system to match templates based on resume data
+
+🔐 User authentication (supports Firebase Auth integration)
+
+📤 Self-hosted deployment with Docker on AWS EC2
+
+⚙️ CI/CD with GitHub Actions and NGINX + Let's Encrypt for HTTPS
+
+🌍 Public resume hosting via unique URL slug
+
+
+## 🛠️ Tech Stack
+- Frontend: Next.js, React, Tailwind CSS
+- Rendering Engine: Schema-driven component mapping (ResumeRenderer)
+- Backend/API: Laravel (planned or integrated depending on auth/data persistence)
+- Deployment: Docker, NGINX, GitHub Actions, AWS EC2
+- Auth: Firebase Authentication (optional)
