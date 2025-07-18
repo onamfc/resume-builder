@@ -19,23 +19,15 @@ Host it on a personal URL or subdomain
 
 Whether you're actively job-hunting or just want a professional digital presence, this app aims to make resume sharing seamless and modern.
 ## ✨ Features
-🔧 JSON-schema powered resume creation system
-
-🧩 Drag-and-drop template selection with deep linking (/preview/[template])
-
-📄 Real-time resume previews with components like JobBlock, BulletBlock, EducationBlock, etc.
-
-🎨 Tailwind CSS-based responsive design
-
-🗂️ Dynamic left-sidebar filtering system to match templates based on resume data
-
-🔐 User authentication (supports Firebase Auth integration)
-
-📤 Self-hosted deployment with Docker on AWS EC2
-
-⚙️ CI/CD with GitHub Actions and NGINX + Let's Encrypt for HTTPS
-
-🌍 Public resume hosting via unique URL slug
+JSON-schema powered resume creation system
+* Drag-and-drop template selection with deep linking (/preview/[template])
+* Real-time resume previews with components like JobBlock, BulletBlock, EducationBlock, etc.
+* Tailwind CSS-based responsive design
+* Dynamic left-sidebar filtering system to match templates based on resume data
+* User authentication (supports Firebase Auth integration)
+* Self-hosted deployment with Docker on AWS EC2
+* CI/CD with GitHub Actions and NGINX + Let's Encrypt for HTTPS
+* Public resume hosting via unique URL slug
 
 
 ## 🛠️ Tech Stack
