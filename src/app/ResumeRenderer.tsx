@@ -126,40 +126,59 @@ const componentMap: Record<string, React.FC<any>> = {
  * @param data - Data source object
  */
 function renderNode(
-    key: string | { component?: string; children?: any[]; key?: string; direction?: string; [key: string]: any },
-    data: any
+  key: string | { component?: string; children?: any[]; key?: string; direction?: string; [key: string]: any },
+  data: any,
+  visitedKeys = new Set<string>()
 ): React.ReactNode {
-    // Case: key is a string referencing an entry in the data object
-    if (typeof key === 'string') {
-        const entry = data?.[key];
-        if (!entry) return null;
-        return renderNode(entry, data); // Recurse into the resolved object
-    }
-    // Case: key is an object with a defined component
-    if (typeof key === 'object') {
-        if (key.component) {
-            const Component = componentMap[key.component];
-            if (!Component) return null;
-            // Recursively render children
-            const renderedChildren = (key.children ?? []).map((child: any, i: number) => (
-                <React.Fragment key={i}>{renderNode(child, data)}</React.Fragment>
-            ));
-
-            return <Component {...{ ...key, children: renderedChildren }} />;
-        }
-        // Case: object has children but no component; render as a flex container
-        if (key.key) {
-            return (
-                <div key={key.key} className={`flex ${key.direction === 'column' ? 'flex-col' : 'flex-row'} gap-4 flex-wrap`}>
-                    {(key.children ?? []).map((childKey) => (
-                        <React.Fragment key={Math.random()}>{renderNode(childKey, data)}</React.Fragment>
-                    ))}
-                </div>
-            );
-        }
+  // Case: key is a string referencing an entry in the data object
+  if (typeof key === 'string') {
+    if (visitedKeys.has(key)) {
+      console.warn(`Circular reference detected at key: "${key}"`);
+      return <div className="text-red-500 text-xs">Circular reference: {key}</div>;
     }
 
-    return null;
+    visitedKeys.add(key);
+    const entry = data?.[key];
+    if (!entry) return null;
+    return renderNode(entry, data, visitedKeys); // Recurse into the resolved object
+  }
+
+  // Case: key is an object with a defined component
+  if (typeof key === 'object') {
+    if (key.key && visitedKeys.has(key.key)) {
+      console.warn(`Circular reference detected at object key: "${key.key}"`);
+      return <div className="text-red-500 text-xs">Circular reference: {key.key}</div>;
+    }
+
+    if (key.key) visitedKeys.add(key.key);
+
+    if (key.component) {
+      const Component = componentMap[key.component];
+      if (!Component) {
+        console.warn(`Component "${key.component}" not found in componentMap.`);
+        return <div className="text-red-500 text-xs">Unknown component: {key.component}</div>;
+      }
+
+      const renderedChildren = (key.children ?? []).map((child: any, i: number) => (
+        <React.Fragment key={i}>{renderNode(child, data, new Set(visitedKeys))}</React.Fragment>
+      ));
+
+      return <Component {...{ ...key, children: renderedChildren }} />;
+    }
+
+    // Case: object has children but no component; render as a flex container
+    if (key.key) {
+      return (
+        <div key={key.key} className={`flex ${key.direction === 'column' ? 'flex-col' : 'flex-row'} gap-4 flex-wrap`}>
+          {(key.children ?? []).map((childKey) => (
+            <React.Fragment key={Math.random()}>{renderNode(childKey, data, new Set(visitedKeys))}</React.Fragment>
+          ))}
+        </div>
+      );
+    }
+  }
+
+  return null;
 }
 
 /**
